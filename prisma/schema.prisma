@@ -21,7 +21,7 @@ model Contact {
   id        Int      @id @default(autoincrement())
   email     String
   phone     String
-  customer  Customer []
+  customer  Customer?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -30,6 +30,7 @@ model Movie {
   id            Int       @id @default(autoincrement())
   title         String
   runtimeMins   Int
+  screening     Screening[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -37,6 +38,8 @@ model Movie {
 
 model Screening {
   id        Int     @id @default(autoincrement())
+  movie     Movie?   @relation(fields: [movieId], references: [id])
+  movieId   Int?
   startsAt  DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
