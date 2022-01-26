@@ -26,24 +26,34 @@ async function seed() {
         data: {
             title: `Jurassic Park`,
             runtimeMins: 200,
-            screening: {
-                create: [
-                    { startsAt: '2022-01-26T14:21:00+00:00' },
-                    { startsAt: '2022-01-26T15:21:00+00:00' },
-                ],
-            },
         },
     });
 
     console.log('movie created', createdMovie);
 
-    // const createdScreening = await prisma.screening.create({
-    //     data: {
-    //         startsAt: "2022-03-19T14:21:00+00:00"
-    //     }
-    // })
-    //
-    //console.log('screening created', createdScreening);
+    const createdScreen = await prisma.screen.create({
+        data: {
+            number: 1,
+        },
+    });
+
+    const createdScreening = await prisma.screening.create({
+        data: {
+            startsAt: '2022-03-19T14:21:00+00:00',
+            movie: {
+                connect: {
+                    id: createdMovie.id,
+                },
+            },
+            screen: {
+                connect: {
+                    id: createdScreen.id,
+                },
+            },
+        },
+    });
+
+    console.log('screening created', createdScreening);
 
     // Don't edit any of the code below this line
     process.exit(0);

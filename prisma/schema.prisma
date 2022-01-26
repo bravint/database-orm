@@ -11,36 +11,45 @@ datasource db {
 model Customer {
   id        Int      @id @default(autoincrement())
   name      String
-  contact   Contact?  @relation(fields: [contactId], references: [id])
-  contactId Int?
+  contact   Contact? @relation(fields: [contactId], references: [id])
+  contactId Int?     @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Contact {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   email     String
   phone     String
   customer  Customer?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Movie {
-  id            Int       @id @default(autoincrement())
-  title         String
-  runtimeMins   Int
-  screening     Screening[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id          Int         @id @default(autoincrement())
+  title       String      @unique
+  runtimeMins Int
+  screening   Screening[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
 
-
 model Screening {
-  id        Int     @id @default(autoincrement())
-  movie     Movie?   @relation(fields: [movieId], references: [id])
-  movieId   Int?
-  startsAt  DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  movie        Movie?   @relation(fields: [movieId], references: [id])
+  movieId      Int?
+  screen       Screen?  @relation(fields: [screenId], references: [id])
+  screenId Int?
+  startsAt     DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Screen {
+  id        Int         @id @default(autoincrement())
+  screening Screening[]
+  number    Int         
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
